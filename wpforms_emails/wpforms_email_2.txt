@@ -1,0 +1,29 @@
+Ethan replied
+Jan 24, 8:04am
+Hi Darrell,
+
+Thank you for contacting us!
+
+We don't currently have any built-in way to send data to a custom database, but you could accomplish this with some custom code. Here's a tutorial from a developer and friend to our team, Bill Erickson: https://www.billerickson.net/contact-form-integration/
+
+While we aren't able to provide support for this level of customization, I hope this helps you to get a better idea of how this could work!
+
+In case it helps, our Zapier addon can also connect to a bunch of other services (Zapier is essentially a 'connector' to create integrations) -- so it may be worth checking if your database is on their list of available integrations, which would let you avoid custom code: https://zapier.com/apps/integrations.
+
+Our Zapier addon is available with our Pro license level or higher (https://wpforms.com/pricing/). 
+
+I hope this helps! Could you please let me know if you have any other questions?
+
+Thanks! :)
+
+
+
+How would you rate my reply?
+Great    Okay    Not Good
+
+--
+Ethan Choi
+Technical Support Specialist
+support@wpforms.com
+
+**Our Standard Support Hours are 9am - 5pm EST, Monday through Friday. While we may respond to tickets outside of this support window, that is not the norm. Thank you for your patience and we’ll respond to any additional questions you may have as soon as possible.**

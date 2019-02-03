@@ -1,0 +1,31 @@
+Ethan replied
+Nov 8, 8:47am
+Hi Darrell,
+
+Thanks for contacting us!
+
+Unfortunately, PayPal does not allow us to transfer license payment from one account to another. So for license purchases made with PayPal, you'll need to cancel your account and purchase a new one under the new account holder's information.
+
+To avoid having two licenses at the same time, here are the specific steps I'd recommend:
+
+1) Cancel auto-renew on your current subscription
+
+Cancel your subscription by logging into your account at WPForms (https://wpforms.com/account/), then going to the Purchase History tab. Here you can click the Cancel Subscription link. This will cancel the auto-renew on your subscription, meaning that you will still be able to finish out your paid term with updates and support (everything will remain as normal for the paid term).
+
+For more details, here's our tutorial on how to do this: https://wpforms.com/docs/how-to-cancel-your-wpforms-account-and-get-a-refund/#cancel-subscription
+
+
+2) When license expires, purchase under new account
+
+The plugin and the forms will still remain functional when the account is cancelled. For your clients to continue receiving updates and support for the plugin, they'll need to complete a new purchase with their details (ideally when the current license expires, or is about to expire, to avoid/minimize overlap). 
+
+Then, they'll receive a new license key which they'll need to verify within their site's WPForms settings (https://wpforms.com/docs/verify-wpforms-license/). 
+
+However, there's no need to reinstall the plugin and nothing about the forms/entries/settings/etc will change in any way through this process.
+
+When your client receive a new license key with the new account, they'll just have to activate the new license key. The forms will remain fully functional when the license key is swapped out.
+
+I apologize for the extra steps involved for PayPal, though I hope this helps! If you have any questions, could you please let me know?
+
+Thanks! :)
+
