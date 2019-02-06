@@ -1,8 +1,8 @@
 ![image1](https://user-images.githubusercontent.com/37909624/52171309-ba57c480-2728-11e9-8cb4-eed90e8780b9.png)
 # GSU-OIPS-senior-project
-OVERVIEW
+##OVERVIEW
 1) The Information Technology Senior Project for the Office of International Programs
-& Services will consists of the production of a website that allows students to browse,
+& Services will consist of the production of a website that allows students to browse,
 apply, and pay for programs provided by OIPS. OIPS faculty and staff will have
 access to a database for managing and tracking students as they apply for international
 programs. The system will also allow directors to process student applications and
