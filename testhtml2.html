@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <script>
+            function display(a,b) {
+                var t = document.getElementById("a").value;
+                var u = document.getElementById("b").value;
+                var arr = [t,u];
+                document.getElementById("c").value = [t,u];
+                document.getElementById("n").innerHTML = arr[0];
+                document.getElementById("o").innerHTML = arr[1];
+            }
+        </script>
+    </head>
+    <body>
+        <input type="text" id="a" value="ned">
+        <input type="text" id="b" value="ted">
+        <input type="text" id="c" name="c[]" value="">
+        <button onclick="display('a','b')">Bed</button>
+        <p id="n"></p>
+        <p id="o"></p>
+    </body>
+</html>

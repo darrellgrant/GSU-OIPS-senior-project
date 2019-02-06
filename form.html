@@ -1,0 +1,20 @@
+<html>
+<title>Validation Form</title>
+<center>
+<script>
+function valid() {
+	alert("Validation successful!");
+}
+</script>
+<form action="/~dg9537/validation_page.html" method="get" target="_blank">
+<br>
+E-mail Address: 
+<input type="text" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{1,63}$" title="Must contain the username, @, and the domain"><br><br>
+Password: 
+<input type="password" name="pass" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}" title="Must contain at least one number, one uppercase and lowercase letter, and be 8 to 20 characters"><br><br>
+URL: 
+<input type="text" name="url" pattern="https?://.+[a-z0-9._%+-]+\.+[a-z0-9._%+-]+\.+[a-z0-9._%+-]{1,63}" title="Include http:// or https:// and full url"><br><br>
+<input type="submit" value="Submit">
+</form>
+</center>
+<html>
