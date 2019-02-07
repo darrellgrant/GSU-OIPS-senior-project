@@ -165,12 +165,16 @@ function sendNow() {
     document.getElementById("fileselcopy").value = i;
 }
 
-function getMailDetails(target) {
+function setMailDetails(target) {
     var a = document.getElementById("subject").value;
-    var b = document.getelementById("replyto").value;
-    var b = document.getelementById("cc").value;
-    var arr = [a,b,c];
-    
+    var b = document.getElementById("replyto").value;
+    var c = document.getElementById("cc").value;
+    var atarg = "emailsubj" + target;
+    var btarg = "emailrep" + target;
+    var ctarg = "emailcc" + target;
+    document.getElementById(atarg).value = a;
+    document.getElementById(btarg).value = b;
+    document.getElementById(ctarg).value = c;
 }
 </script>
 </head>
@@ -222,14 +226,17 @@ if (isset($_POST['submit'])) {
 	    <br />
 	   </fieldset>
 	</div><br />
+	<p id=\"test\"></p>
 	<form class=\"fclass\" action=\"emailsys3.php\"  target=\"ifremail\" method=\"post\"><br />
 	    <div class=\"centersubmit\">Date to Send (12:00AM): <input type=\"date\" id=\"start\" name=\"senddate\" required
 				   min=\"" . date("Y-m-d") . "\" max=\"2100-12-31\" /><br />
 	    <input type=\"hidden\" id=\"hiddenlist\" name=\"emaillist\" value=\"\">
 	    <input type=\"hidden\" id=\"hiddenfile\" name=\"FileSel\" value=\"\">
-	    <input type=\"hidden\" id=\"emaildetails name=\"emaildetails\" value=\"\"><br />
-	    <input type=\"submit\" name=\"preview\" value=\"Preview Email\" onclick=\"getTextArea('hiddenlist');openTab(event,  'Email');\"><br /><br />
-	    <input type=\"submit\" name=\"schedule\" id=\"schedulesubmit\" value=\"Schedule Emails\"></div>
+	    <input type=\"hidden\" id=\"emailsubj1\" name=\"emailsubj1\" value=\"\">
+	    <input type=\"hidden\" id=\"emailrep1\" name=\"emailrep1\" value=\"\">
+	    <input type=\"hidden\" id=\"emailcc1\" name=\"emailcc1\" value=\"\"><br />
+	    <input type=\"submit\" name=\"preview\" value=\"Preview Email\" onclick=\"getTextArea('hiddenlist'); openTab(event,  'Email');\"><br /><br />
+	    <input type=\"submit\" name=\"schedule\" id=\"schedulesubmit\" value=\"Schedule Emails\" onclick=\"setMailDetails('1');\"></div>
     	<br />
 	</form>
 	    <br />
@@ -237,8 +244,10 @@ if (isset($_POST['submit'])) {
     	<br />
 	    <input type=\"hidden\" id=\"listcopy\" name=\"emaillistcopy\" value=\"\">
 	    <input type=\"hidden\" id=\"fileselcopy\" name=\"fileselcopy\" value=\"\">
-	    <input type=\"hidden\" id=\"emaildetails name=\"emaildetails\" value=\"\">
-	    <div class=\"centersubmit\"><input type=\"submit\" class=\"centersubmit\" name=\"sendnow\" value=\"Send Emails Immediately\" onclick=\"getTextArea('listcopy'); openTab(event, 'Email'); sendNow();\">
+	    <input type=\"hidden\" id=\"emailsubj2\" name=\"emailsubj2\" value=\"\">
+	    <input type=\"hidden\" id=\"emailrep2\" name=\"emailrep2\" value=\"\">
+	    <input type=\"hidden\" id=\"emailcc2\" name=\"emailcc2\" value=\"\">
+	    <div class=\"centersubmit\"><input type=\"submit\" class=\"centersubmit\" name=\"sendnow\" value=\"Send Emails Now\" onclick=\"getTextArea('listcopy'); setMailDetails('2'); openTab(event, 'Email'); sendNow();\">
 	    </div>
 	    <br />
 	</form>
