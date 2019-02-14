@@ -1,4 +1,7 @@
 <?php
+//# bugs/fixes: 
+//#         1) Textarea box and corresponding text label not vertically aligning well
+//#         2) Save and Cancel buttons can do with re-positioning
 include $_SERVER['DOCUMENT_ROOT'] . "/connectdb.php";
 ?>
 <html>
