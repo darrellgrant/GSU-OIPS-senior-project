@@ -106,22 +106,6 @@ div.row {
 }
 </style>
 <script>
-function openModal(tar) {
-  var modal = document.getElementById(tar);
-  modal.style.display = "block";
-}
-
-function closeModal(tar) {
-    var modal = document.getElementById(tar);
-  modal.style.display = "none";
-}
-
-<?php 
-if(isset($_POST['editbutton'])) {
-    ?> openModal('editModal'); <?php
-}
-?>
-
 //# function to filter table rows based on input characters
 function search(col) {
   var input, filter, table, tr, td, i, txtValue, column, inp1, inp2, inp3, inp4;
@@ -226,7 +210,7 @@ function varFilter($s){
         <th><input type="text" id="creditHoursInput" onkeyup="search(3)" placeholder="Search Credit Hours"></th>
         <th><input type="text" id="crnInput" onkeyup="search(4)" placeholder="Search CRN"></th>
    </tr>
-   <tr>
+    <tr>
        <th><b>Course ID (Database)</b></th>
        <th><b>Course</b></th>
        <th><b>Course Name</b></th>
@@ -294,11 +278,11 @@ function varFilter($s){
         </form>
     </div>
 </div>
-<div id="editModal" class="modal" id="<?php echo $row['CourseID']?>">
+<div id="editModal" class="modal">
     <div class="modal-content">
     <?php
         if(isset($_POST['classrow'])) {
-        $classrow = $_POST['classrow'];
+            $classrow = $_POST['classrow'];
         }
     ?>
     <p>Editing <b><?php echo $classrow[1] ?> - <?php echo $classrow[2] ?></b></p>
@@ -334,4 +318,21 @@ function varFilter($s){
     </div>
 </div>
 </body>
+<script>
+function openModal(tar) {
+    var modal = document.getElementById(tar);
+    modal.style.display = "block";
+}
+
+function closeModal(tar) {
+    var modal = document.getElementById(tar);
+    modal.style.display = "none";
+}
+
+<?php 
+if(isset($_POST['editbutton'])) {
+    ?> openModal('editModal'); <?php
+}
+?>
+</script>
 </html>
