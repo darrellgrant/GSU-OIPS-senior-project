@@ -30,6 +30,7 @@ th, td, td > input {
 #table tr.header, #myTable tr:hover {
     background-color: #f1f1f1;
 }
+
 .tooltip {
     position: relative;
 }
@@ -55,26 +56,44 @@ div.hidden {
     width:0px;
 }
 
-/* The popup form - hidden by default */
-.form-popup {
-  display: none;
-  position: fixed;
-  top: 50px;
-  right: 15px;
-  z-index: 9;
-  opacity:1;
-  background:grey;
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 80%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+  overflow-y: scroll;
 }
 
-.form-container {
-  padding: 0px;
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px groove #888;
+  width: 80%;
+  overflow:auto;
 }
+
 
 fieldset {
     display:table;
 }
-div.column {
+
+fieldset * {
+    margin-bottom:8px;
+}
+
+.column {
     display:table-cell;
+    text-align:right;
+    width: 30%;
+    padding:4px;
 }
 
 div.row {
@@ -87,16 +106,22 @@ div.row {
 }
 </style>
 <script>
-//# open/close any selected form
-function openForm(form) {
-    var name = "editForm" + form;
-    document.getElementById(name).style.display = "block";
+function openModal(tar) {
+  var modal = document.getElementById(tar);
+  modal.style.display = "block";
 }
 
-function closeForm(form) {
-    var name = "editForm" + form;
-    document.getElementById(name).style.display = "none";
+function closeModal(tar) {
+    var modal = document.getElementById(tar);
+  modal.style.display = "none";
 }
+
+<?php 
+if(isset($_POST['editbutton'])) {
+    ?> openModal('editModal'); <?php
+}
+?>
+
 //# function to filter table rows based on input characters
 function search(col) {
   var input, filter, table, tr, td, i, txtValue, column, inp1, inp2, inp3, inp4;
@@ -207,58 +232,106 @@ function varFilter($s){
        <th><b>Course Name</b></th>
        <th><b>Credit Hours</b></th>
        <th><b>CRN</b></th>
-       <th><div class="form-popup" id="newclassform">
-           <form method="post" action="" class="form-container" onsubmit='document.getElementById("newclassform").style.display="hidden"'>
-                 <fieldset>
-        <div class="row"><div id="column">Course: </div><input type="text" name="course" required></div>
-        <div class="row\"><div id="column">Course Name: </div><textarea rows="2" cols="50" name="coursename"> </textarea></div>
-        <div class="row"><div id="column">Credit Hours: </div><input type="text" name="credithours" required></div>
-        <div class="row"><div id="column">CRN:</div> <input type="text" name="crn" style="width:70px;"></div><br />
-        <div id="btndiv">
-        <button type="submit" id="btnsubmit" name="Add" value="Add">Add</button>
-        <button type="button" id="btncancel" onclick='document.getElementById("newclassform").style.display="none"'>Cancel</button>
-        </div>
-        </fieldset>
-            </form>
-            </div>
+        <th>
         </th>
-       <th><form><input type="button" name="addclass" value="Add New Class" onclick='document.getElementById("newclassform").style.display="block"'>
+       <th><form><input type="button" name="addclass" value="Add New Class" onclick="openModal('addModal')">
        </form></th>
    </tr>
 <?php 
 //# select Classes data
     $query = mysqli_query($conn,"Select * from Classes");
-    while($row = mysqli_fetch_array($query)) { 
-    echo "<tr>
-        <td class=\"tooltip\"><span class=\"tooltiptext\">References ProgramIDs in other functions</span> ".$row['CourseID']."</td>
-        <td>".$row['Course']."</td>
-        <td class=\"long\">" . $row['CourseName'] . "</td>
-        <td class=\"short\">". $row['CreditHours'] . "</td>
-        <td class=\"short\">" . $row['CRN'] . "</td>
-        <td><button name=\"editbutton\" onclick=\"openForm('".$row['CourseID']."')\">Edit</button></td>
-        <td><form method=\"post\" action=\"\" onsubmit=\"return confirm('Delete this entry? Course: ".$row['Course']." Course Name: ".$row['CourseName']." Credit Hours: ".$row['CRN']."')\">
-            <input type=\"hidden\" name=\"rmvclass\" value=\"".$row['CourseID']."\">
-            <input type=\"submit\" name=\"removecl\" value=\"Delete\">
+    while($row = mysqli_fetch_array($query)) { ?>
+    <tr>
+        <td class="tooltip"><span class="tooltiptext">References ProgramIDs in other functions</span><?php echo $row['CourseID'] ?></td>
+        <td><?php echo $row['Course'] ?></td>
+        <td class="long"><?php echo $row['CourseName'] ?></td>
+        <td class="short"><?php echo $row['CreditHours'] ?></td>
+        <td class="short"><?php echo $row['CRN'] ?></td>
+        <td><form method="post" action="">
+            <input type="hidden" name="classrow[]" value="<?php echo $row['CourseID']?>">
+            <input type="hidden" name="classrow[]" value="<?php echo $row['Course']?>">
+            <input type="hidden" name="classrow[]" value="<?php echo $row['CourseName']?>">
+            <input type="hidden" name="classrow[]" value="<?php echo $row['CreditHours']?>">
+            <input type="hidden" name="classrow[]" value="<?php echo $row['CRN']?>">
+            <button type="submit" name="editbutton" onclick="openModal('editModal');">Edit</button>
+            </form>
+        </td>
+        <td><form method="post" action="" onsubmit="return confirm('Delete this entry? Course: <?php echo $row['Course'] ?> Course Name: <?php echo $row['CourseName'] ?> Credit Hours: <?php echo$row['CRN'] ?>')">
+            <input type="hidden" name="rmvclass" value="<?php echo $row['CourseID']?>">
+            <input type="submit" name="removecl" value="Delete">
         </form></td>
-        
-        <div class=\"form-popup\" id=\"editForm".$row['CourseID']."\">
-        <form method=\"post\" action=\"\" class=\"form-container\" onsubmit=\"closeForm('".$row['CourseID']."')\">
-        <input type=\"hidden\" name=\"courseid\" value=\"".$row['CourseID']."\">
+    </tr>
+ <?php } ?>
+</table>
+<div class="modal" id="addModal">
+    <div class="modal-content">
+        <p>Adding new Course</p>
+       <form method="post" action="" class="form-container" onsubmit='document.getElementById("newclassform").style.display="hidden"'>
         <fieldset>
-        <div class=\"row\"><div id=\"column\">Course: </div><input type=\"text\" name=\"course\" value=\"" . $row['Course'] . "\" required></div>
-        <div class=\"row\"><div id=\"column\">Course Name: </div><textarea rows=\"2\" cols=\"50\" name=\"coursename\">" . $row['CourseName'] . "</textarea></div>
-        <div class=\"row\"><div id=\"column\">Credit Hours: </div><input type=\"text\" name=\"credithours\" value=\"" . $row['CreditHours'] . "\" required></div>
-        <div class=\"row\"><div id=\"column\">CRN:</div> <input type=\"text\" name=\"crn\" style=\"width:70px;\" value=\"" . $row['CRN'] . "\"></div><br />
-        <div id=\"btndiv\">
-        <button type=\"submit\" id=\"btnsubmit\" name=\"Update\" value=\"Update\">Update</button>
-        <button type=\"button\" id=\"btncancel\" onclick=\"closeForm('".$row['CourseID']."')\">Cancel</button>
-        </div>
+            <div class="row">
+                <div class="column">Course: </div><input type="text" name="course" required>
+            </div>
+            <div class="row">
+                <div class="column">Course Name: </div>
+                <textarea rows="2" cols="50" name="coursename"> </textarea>
+            </div>
+            <div class="row">
+                <div class="column">Credit Hours: </div>
+                <input type="text" name="credithours" required>
+            </div>
+            <div class="row">
+                <div class="column">CRN:</div> 
+                <input type="text" name="crn" style="width:70px;">
+            </div>
+            <div class="row">
+                <div class="column"></div>
+                <div id="btndiv">
+                <button type="submit" class="btnsubmit" name="Add" value="Add">Add</button>
+                <button type="button" class="btncancel" onclick="closeModal('addModal')">Cancel</button>
+                </div>
+            </div>
         </fieldset>
         </form>
+    </div>
+</div>
+<div id="editModal" class="modal" id="<?php echo $row['CourseID']?>">
+    <div class="modal-content">
+    <?php
+        if(isset($_POST['classrow'])) {
+        $classrow = $_POST['classrow'];
+        }
+    ?>
+    <p>Editing <b><?php echo $classrow[1] ?> - <?php echo $classrow[2] ?></b></p>
+    <form method="post" action="" onsubmit="closeModal('Modal')">
+    <input type="hidden" name="courseid" value="<?php echo $classrow[0] ?>">
+    <fieldset>
+    <div class="row">
+        <div class="column">Course: </div>
+        <input type="text" name="course" value="<?php echo $classrow[1] ?>" required>
+    </div>
+    <div class="row">
+        <div class="column">Course Name: </div>
+        <textarea rows="2" cols="50" name="coursename"><?php echo $classrow[2] ?></textarea>
+    </div>
+    <div class="row">
+        <div class="column">Credit Hours: </div>
+        <input type="text" name="credithours" value="<?php echo $classrow[3] ?>" required>
+    </div>
+    <div class="row">
+        <div class="column">CRN: </div>
+        <input type="text" name="crn" style="width:70px;" value="<?php echo $classrow[4] ?>">
+    </div>
+    <div class="row">
+        <div class="column"></div>
+            <div id="btndiv">
+                <button type="submit" id="btnsubmit" name="Update" value="Update">Update</button>
+                <button type="button" id="btncancel" onclick="closeModal('editModal')">Cancel</button>
+            </div>
         </div>
-    </tr>";
-    }
-?>
-</table>
+    </div>
+    </fieldset>
+    </form>
+    </div>
+</div>
 </body>
 </html>
