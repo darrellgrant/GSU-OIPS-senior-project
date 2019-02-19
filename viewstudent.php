@@ -295,14 +295,14 @@ $(document).ready(function(){
 				    <div class="column2">Passport Verified: </div>
 				    <div class="column">
 				        <select id="passverif" name="passverif">
-							<option value="<?php echo $passportrow['PassportVerif'] . "\">" . $passportrow['PassportVerif']; 
-							    $ppvarr = array("Yes","No");
-							    foreach($ppvarr as $c) {
-							        if($c != $passportrow['PassportVerif']) {
-							            echo "<option value=\"" . $c . "\">" . $c;
-							        } 
-							    }
-								?>
+							<option value="<?php echo $passportrow['PassportVerif'] ?>"><?php echo $passportrow['PassportVerif'] ?> 
+							    <?php 
+								$ppvarr = array("Yes","No");
+							    foreach($ppvarr as $c) { 
+							        if($c != $passportrow['PassportVerif']) { ?>
+							            <option value="<?php echo $c ?>"><?php echo $c ?>
+							        <?php } 
+							    } ?>
 					    </select>
 					</div>
 				</div>
@@ -310,7 +310,7 @@ $(document).ready(function(){
     				<div class="column2">First name on passport: </div>
     				<div class="column"><input type="text" name="passfn" value="<?php echo $passportrow['PassFName']?>" pattern="[a-zA-Z0-9\s]+"></div>
     				<div class="column2med">Middle name on passport: </div>
-    				<div class="column"></column><input type="text" name="passmn" value="<?php echo $passportrow['PassMName']?>" pattern="[a-zA-Z0-9\s]+"></div>
+    				<div class="column"><input type="text" name="passmn" value="<?php echo $passportrow['PassMName']?>" pattern="[a-zA-Z0-9\s]+"></div>
 				</div>
 				<div class="row">
 				    <div class="column2med">Last name on passport: </div>
@@ -319,36 +319,38 @@ $(document).ready(function(){
 				    <div class="columnlong"><input class="long" list="countries" id="passnatl" name="passnatl" pattern="[^\x22|\x3B]+" value="<?php echo $passportrow['PassportNatl']?>">
 				        <datalist id="countries">
 				            <?php 
-				                foreach($countries as $c) {
-				                    echo "<option value=\"".$c."\">";
-				                }
+				                foreach($countries as $c) { ?>
+				                    <option value="<?php echo $c ?>"><?php echo $c ?>
+				                <?php }
 				            ?>
 				        </datalist>
 				    </div>
 				</div>
 				<div class="row">
 				    <div class="column2">Passport Number: </div>
-				    <div class="column"><input type="text" name="passnum" value="<?php echo     $passportrow['PassportNum']?>" pattern="[^\x22|\x3B]+"></div>
+				    <div class="column"><input type="text" name="passnum" value="<?php echo $passportrow['PassportNum']?>" pattern="[^\x22|\x3B]+"></div>
 				    <div class="column2med">Passport Expiration Date: </div>
 				    <div class="column"><input type="date" name="passexp" value="<?php echo $passportrow['PassportExpDate']?>"></div>
 				</div>
 			</fieldset>
 		</div>
+		
 		<div id="Education" class="tabcontent">
 			<fieldset>
 			    <div class="row">
     				<div class="column2">Class: </div>
     				<div class="column">
     				    <select id="educclass" name="educclass">
-    							<option value="<?php echo $educationrow['Class'] . "\">" . $educationrow['Class'];
-    								$classarr = array("Freshman","Sophomore","Junior","Senior","Graduate","Other");
-    								foreach($classarr as $c) {
-    									if($c != $educationrow['Class']) {
-    										echo "<option value=\"" . $c . "\">" . $c;
-    								    }
-    							    }
-    						    ?>
-    					</select></div>
+    						<option value="<?php echo $educationrow['Class'] ?>"><?php echo $educationrow['Class']?>
+							<?php
+    						$classarr = array("Freshman","Sophomore","Junior","Senior","Graduate","Other");
+    						foreach($classarr as $c) {
+    							if($c != $educationrow['Class']) { ?>
+    								<option value="<?php echo $c ?>"><?php echo $c ?>
+    						    <?php }
+    						} ?>
+    					</select>
+					</div>
     				<div class="column2">Major: </div>
     				<div class="column"><input type="text" class="long" name="major" value="<?php echo $educationrow['Major'] ?>" pattern="[^\x22|\x3B]+"></div>
     			</div>
@@ -362,15 +364,16 @@ $(document).ready(function(){
     				<div class="column2med">Good Academic Standing: </div>
     				<div class="column">
     				    <select id="acstand" name="acstand">
-    						<option value="<?php echo $educationrow['AcademicStanding'] . "\">" . $educationrow['AcademicStanding'];
-    						    $easarr = array("Yes","No");
+    						<option value="<?php echo $educationrow['AcademicStanding'] ?>"><?php echo $educationrow['AcademicStanding'] ?>
+    						    <?php
+								$easarr = array("Yes","No");
     						    foreach($easarr as $c) {
-    						        if($c != $educationrow['AcademicStanding']) {
-    						            echo "<option value=\"" . $c . "\">" . $c;
-    						        }
-    						    }
-    						?>
-						</select></div>
+    						        if($c != $educationrow['AcademicStanding']) { ?>
+    						            <option value="<?php echo $c ?>"><?php echo $c ?>
+    						        <?php }
+    						    } ?>
+						</select>
+					</div>
 				</div>
 			</fieldset>
 		</div>
@@ -381,28 +384,29 @@ $(document).ready(function(){
     			    <div class="column2">GPA Verification: </div>
     				<div class="column">
     				    <select id="gpaverif" name="gpaverif">
-    						<option value="<?php echo $applicationrow['GPAVerif'] . "\">" . $applicationrow['GPAVerif'];
-    						$arr = array("Yes","No");
+    						<option value="<?php echo $applicationrow['GPAVerif'] ?>"><?php echo $applicationrow['GPAVerif'] ?>
+    						<?php
+							$arr = array("Yes","No");
     						foreach($arr as $c) {
-    						    if($c != $applicationrow['GPAVerif']) {
-    						    	echo "<option value=\"" . $c . "\">" . $c;
-    					    	}
-    						}
-    						?>
-    					</select></div>
+    						    if($c != $applicationrow['GPAVerif']) { ?>
+    						    	<option value="<?php echo $c ?>"><?php echo $c ?>
+    					    	<?php }
+    						} ?>
+    					</select>
+					</div>
 				</div>
 				<div class="row">
     				<div class="column2">Judicial Verification: </div>
     				<div class="column">
     				    <select id="judverif" name="judverif">
-    						<option value="<?php echo $applicationrow['JudicialVerif'] . "\">" . $applicationrow['JudicialVerif'];
-    							$arr = array("Yes","No","Open");
+    						<option value="<?php echo $applicationrow['JudicialVerif'] ?>"><?php echo $applicationrow['JudicialVerif'] ?>
+    							<?php
+								$arr = array("Yes","No","Open");
     							foreach($arr as $c) {
-    							    if($c != $applicationrow['JudicialVerif']) {
-    									echo "<option value=\"" . $c . "\">" . $c;
-    								}
-    							}
-    						?>
+    							    if($c != $applicationrow['JudicialVerif']) { ?>
+    									<option value="<?php echo $c ?>"><?php echo $c ?>
+    								<?php }
+    							} ?>
     				    </select>
     				</div>
     				<div class="column2">Judicial Verification Note: </div>        
@@ -413,27 +417,27 @@ $(document).ready(function(){
     				<div class="column2">Letter Sent: </div>
     				<div class="column">
     				    <select id="letsent" name="letsent">
-    						<option value="<?php echo $applicationrow['LetterSent'] . "\">" . $applicationrow['LetterSent'];
-    							$arr = array("Yes","No");
+    						<option value="<?php echo $applicationrow['LetterSent'] ?>"><?php echo $applicationrow['LetterSent'] ?>
+    							<?php
+								$arr = array("Yes","No");
     							foreach($arr as $c) {
-    								if($c != $applicationrow['LetterSent']) {
-    									echo "<option value=\"" . $c . "\">" . $c;
-    								}
-    							}
-    							?>
+    								if($c != $applicationrow['LetterSent']) { ?>
+    									<option value="<?php echo $c ?>"><?php echo $c ?>
+    								<?php }
+    							} ?>
     					</select>
     				</div>
     				<div class="column2med">Enrollment Verification: </div>
     				<div class="column">
     				    <select id="enrollverif" name="enrollverif">
-    						<option value="<?php echo $applicationrow['EnrollmentVerif'] . "\">" . $applicationrow['EnrollmentVerif'];
-    							$arr = array("Yes","No");
+    						<option value="<?php echo $applicationrow['EnrollmentVerif'] ?>"><?php echo $applicationrow['EnrollmentVerif'] ?>
+    							<?php
+								$arr = array("Yes","No");
     							foreach($arr as $c) {
-    					    		if($c != $applicationrow['EnrollmentVerif']) {
-    									echo "<option value=\"" . $c . "\">" . $c;
-    									}
-    								}
-    							?>
+    					    		if($c != $applicationrow['EnrollmentVerif']) { ?>
+										<option value="<?php echo $c ?>"><?php echo $c ?>
+    									<?php }
+    								} ?>
     					</select>
     				</div>
 				</div>
@@ -444,7 +448,7 @@ $(document).ready(function(){
                     <?php 
                         //# get the program's available classes
                         $progid = $applicationrow['ProgramID'];
-                        $classq = mysqli_query($conn,"Select AvailCourse1,AvailCourse2,AvailCourse3,AvailCourse4,AvailCourse5,AvailCourse6,AvailCourse7,AvailCourse8,AvailCourse9,AvailCourse10 From Program where ProgramID='$progid'");
+                        $classq = mysqli_query($conn,"Select AvailCourse1,AvailCourse2,AvailCourse3,AvailCourse4,AvailCourse5,AvailCourse6,AvailCourse7,AvailCourse8,AvailCourse9,AvailCourse10,AvailCourse11,AvailCourse12,AvailCourse13,AvailCourse14,AvailCourse15 From Program where ProgramID='$progid'");
                         $classqrow = mysqli_fetch_array($classq);
                         
                         //# store the CourseIDs of AvailCourse1-10 in $classqids
@@ -477,20 +481,26 @@ $(document).ready(function(){
                             $tempid = $classarr[$i];
                             $tempq = mysqli_query($conn,"Select * From Classes where CourseID='$tempid'");
                             $tempr = mysqli_fetch_array($tempq);
-                            $count = $i + 1 ;
-                            echo "Class " . $count . ": 
-                                <select name=\"classes".$count."\">
-                                    <option value=\"" . $tempr['CourseID'] . "\">" . $tempr['Course'] . " - " . $tempr['CourseName'] . " (" . $tempr['CreditHours'] . ")";
+                            $count = $i + 1;
+							?>
+                            Class <?php echo $count ?>: 
+                                <select name="classes<?php echo$count ?>">
+                                    <?php 
+                                    if(strlen($tempr['CourseID']) > 0) { ?>
+                                    <option value="<?php echo $tempr['CourseID'] ?>"><?php echo $tempr['Course'] . " - " . $tempr['CourseName'] . " (" . $tempr['CreditHours'] . ")" ?>
+                                    <?php } 
+                                    else { ?>
+                                        <option value="">
+                                    <?php } ?>
+							<?php
                             for($j=0;$j<$countfull;$j+=4) {
-                                if($classqfullrow[$j] !== $tempid) {                               
-                                    echo "<option value=\"" . $classqfullrow[$j] . "\">" . $classqfullrow[$j+1] . " - " . $classqfullrow[$j+2] . " (" . $classqfullrow[$j+3] . ")";
-                                    
-                                }
-                            }
-                            echo "</select><br />";
-                        }
-                        
-                    ?>
+                                if(($classqfullrow[$j] !== $tempid) && (strlen($classqfullrow[$j]) > 0)) {  ?>
+                                    <option value="<?php echo $classqfullrow[$j] ?>"><?php echo $classqfullrow[$j+1] . " - " . $classqfullrow[$j+2] . " (" . $classqfullrow[$j+3] . ")" ?>
+                                <?php }
+                            } ?>
+								</select>
+							<br />
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="segcollapse">
@@ -524,18 +534,17 @@ $(document).ready(function(){
                         </div>
                         <div>
                             Deposit Paid: <select id="deppaid" name="deppaid">
-                                <option value="<? echo $applicationrow['DepositPaid'] ?>"> <?php echo $applicationrow['DepositPaid'] ?>
+                                <option value="<? echo $applicationrow['DepositPaid'] ?>"><?php echo $applicationrow['DepositPaid'] ?>
                             <?php
                                 foreach($selopts as $c) {
-                                    if($c != $applicationrow['DepositPaid']) {
-                                        echo "<option value=\"".$c."\">".$c;
-                                    }
-                                }
-                            ?>
-                        </select>
-                        Deposit Date and Time Paid: <input type="text" class="datetime" name="depositdt" value="<?php echo $applicationrow['DepositDatePaid']?>">
-                        Deposit Amount: <input type="text" class="short" id="depamt" disabled value="<?php echo $programrow['DepositAmount'] ?>">
-                        Deposit Date Due: <input type="text" class="datelength" disabled value="<?php echo $programrow['DepositDateDue'] ?>">
+                                    if($c != $applicationrow['DepositPaid']) { ?>
+                                        <option value="<?php echo $c ?>"><?php echo $c ?>
+                                    <?php }
+                                } ?>
+							</select>
+							Deposit Date and Time Paid: <input type="text" class="datetime" name="depositdt" value="<?php echo $applicationrow['DepositDatePaid']?>">
+							Deposit Amount: <input type="text" class="short" id="depamt" disabled value="<?php echo $programrow['DepositAmount'] ?>">
+							Deposit Date Due: <input type="text" class="datelength" disabled value="<?php echo $programrow['DepositDateDue'] ?>">
                         </div>
                         <?php 
                             for($i=1;$i<5;$i++) {
@@ -544,38 +553,36 @@ $(document).ready(function(){
                                 $pdd = "Payment" . $i . "DateDue";
                                 $pconf = "Payment" . $i . "Paid";
                                 
-                                if($programrow[$pamt] != 0){
-                                    echo "<div> 
-                                    Payment " . $i . " Paid: <select id=\"p".$i."paid\" name=\"p".$i."paid\">
-                                        <option value=\"".$applicationrow[$pconf]."\">".$applicationrow[$pconf];
-                                        foreach($selopts as $c) {
-                                            if($c!=$applicationrow[$pconf]) {
-                                                echo "<option value=\"".$c."\">".$c;
-                                            }
-                                        }
-                                        echo "</select>
-                                        Payment $i Paid Date and Time: <input type=\"text\" class=\"datetime\" name=\"p".$i."dt\" value=\"".$applicationrow[$pdp]."\">
-                                        Payment $i Amount: <input type=\"text\" id=\"p".$i."amt\" class=\"short\" disabled value=\"".$programrow[$pamt]."\">
-                                        Payment $i Date Due: <input type=\"text\" class=\"datelength\" disabled value=\"".$programrow[$pdd]."\">
-                                        </div>";
-                                        
-                                }
-                            }
-                        ?>
+                                if($programrow[$pamt] != 0){ ?>
+                                    <div> 
+										Payment <?php echo $i ?> Paid: <select id="p<?php echo $i ?>paid" name="p<?php echo $i?>paid">
+                                        <option value="<?php echo $applicationrow[$pconf] ?>"><?php echo $applicationrow[$pconf] ?>
+                                        <?php 
+										foreach($selopts as $c) {
+                                            if($c!=$applicationrow[$pconf]) { ?>
+                                                <option value="<?php echo $c ?>"><?php echo $c ?>
+                                            <?php }
+                                        } ?>
+                                        </select>
+                                        Payment <?php echo $i ?> Paid (Date and Time): <input type="text" class="datetime" name="p<?php echo $i ?>dt" value="<?php echo $applicationrow[$pdp]?>">
+                                        Payment <?php echo $i ?> Amount: <input type="text" id="p<?php echo $i ?>amt" class="short" disabled value="<?php echo $programrow[$pamt] ?>">
+                                        Payment <?php echo $i ?> Date Due: <input type="text" class="datelength" disabled value="<?php echo $programrow[$pdd] ?>">
+                                        </div>
+                                <?php }
+                            } ?>
                         <div>
                             Insurance Paid: <select id="insurpaid" name="insurpaid">
                                 <option value="<? echo $applicationrow['InsurancePaid'] ?>"> <?php echo $applicationrow['InsurancePaid'] ?>
                             <?php
                                 foreach($selopts as $c) {
-                                    if($c != $applicationrow['InsurancePaid']) {
-                                        echo "<option value=\"".$c."\">".$c;
-                                    }
-                                }
-                            ?>
-                        </select>
-                        Insurance Date and Time Paid: <input type="text" class="datetime" name="insurdt" value="<?php echo $applicationrow['InsuranceDatePaid']?>">
-                        Insurance Amount: <input type="text" class="short" id="insamt" disabled value="<?php echo $programrow['InsuranceAmt'] ?>">
-                        Insurance Date Due: <input type="text" class="datelength" disabled value="<?php echo $programrow['InsuranceDateDue'] ?>">
+                                    if($c != $applicationrow['InsurancePaid']) { ?>
+                                        <option value="<?php echo $c ?>"><?php echo $c ?>
+                                    <?php }
+                                } ?>
+							</select>
+							Insurance Date and Time Paid: <input type="text" class="datetime" name="insurdt" value="<?php echo $applicationrow['InsuranceDatePaid']?>">
+							Insurance Amount: <input type="text" class="short" id="insamt" disabled value="<?php echo $programrow['InsuranceAmt'] ?>">
+							Insurance Date Due: <input type="text" class="datelength" disabled value="<?php echo $programrow['InsuranceDateDue'] ?>">
                         </div>
                     </div>
                 </div>
@@ -583,9 +590,8 @@ $(document).ready(function(){
                 </div>
 			</fieldset>
 		</div>
-    </div>
     <button class="save" type="submit" name="update" value="update">Save Changes</button>
-    </form>
+</form>
 </body>
 <script>
 function openTab(evt, tabName) {
