@@ -199,7 +199,7 @@ table tr {
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-  $("#edepamt,#ep1amt,#ep2amt,#ep3amt,#ep4amt,#einsamt").on("ready blur focus",function(){
+  $("#edepamt,#ep1amt,#ep2amt,#ep3amt,#ep4amt,#einsamt").on("ready blur focus submit",function(){
     var bal = 0;
     var arr = [parseFloat($("#edepamt").val()),"#edepamt",parseFloat($("#ep1amt").val()),"#ep1amt",parseFloat($("#ep2amt").val()),"#ep2amt",parseFloat($("#ep3amt").val()),"#ep3amt",parseFloat($("#ep4amt").val()),"#ep4amt",parseFloat($("#einsamt").val()),"#einsamt"];
     for(i=0;i<12;i+=2) {
@@ -210,7 +210,7 @@ $(document).ready(function(){
             $(i+1).val(0);
         }
     }
-    $("#ebal").val(bal);
+    $("#ebal,#ebalh").attr("value",bal);
   });
   $("#adepamt,#ap1amt,#ap2amt,#ap3amt,#ap4amt,#ainsamt").on("ready blur focus",function(){
     var bal = 0;
@@ -223,7 +223,7 @@ $(document).ready(function(){
             $(i+1).val(0);
         }
     }
-    $("#abal").val(bal);
+    $("#abal,#abalh").attr("value",bal);
   });
   $("#eprogramstartdate").on("ready blur focus",function(){
     var date = $("#eprogramstartdate").val();
@@ -244,17 +244,12 @@ $(document).ready(function(){
 <?php
 if(isset($_POST['addsubmit'])) {
     //# build the query
-    $query = "INSERT INTO Program (ProgramName,Country,DirectorID,Semester,ProgramStartDate,ProgramEndDate,Year,SuggestedMajors,AvailCourse1,AvailCourse2,AvailCourse3,AvailCourse4,AvailCourse5,AvailCourse6,AvailCourse7,AvailCourse8,AvailCourse9,AvailCourse10,AvailCourse11,AvailCourse12,AvailCourse13,AvailCourse14,AvailCourse15,MiscField1Name,MiscField2Name,MiscField3Name,MiscField4Name,MiscField5Name,MiscField6Name,MiscField7Name,MiscField8Name,MiscField9Name,MiscField10Name,BalanceDue,DepositDateDue,DepositAmount,Payment1DateDue,Payment1Amt,Payment2DateDue,Payment2Amt,Payment3DateDue,Payment3Amt,Payment4DateDue,Payment4Amt,InsuranceDateDue,InsuranceAmt) VALUES ('$_POST[programname]','$_POST[programcountry]','0','$_POST[semester]','$_POST[programstartdate]','$_POST[programenddate]','$_POST[programyear]','$_POST[suggestedmajors]',"; 
-    for($i=1;$i<16;$i++) {
-        $temp = "ac" . $i;
-        $query .= "'$_POST[temp]',";
-    }
-    for($i=1;$i<11;$i++){
-        $temp = "miscf" . $i;
-        $query .= "'$_POST[temp]',";
-    }
-    $query .= "'$_POST[bal]','$_POST[depdate]','$_POST[depamt]','$_POST[p1date]','$_POST[p1amt]','$_POST[p2date]','$_POST[p2amt]','$_POST[p3date]','$_POST[p3amt]','$_POST[p4date]','$_POST[p4amt]','$_POST[insdate]','$_POST[insamt]')";
-    echo $query;
+    $postarr = array($_POST['programname'],$_POST['programcountry'],$_POST['directorsel'],$_POST['semester'],$_POST['programstartdate'],$_POST['programenddate'],$_POST['programyear'],$_POST['suggestedmajors'],$_POST['ac1'],$_POST['ac2'],$_POST['ac3'],$_POST['ac4'],$_POST['ac5'],$_POST['ac6'],$_POST['ac7'],$_POST['ac8'],$_POST['ac9'],$_POST['ac10'],$_POST['ac11'],$_POST['ac12'],$_POST['ac13'],$_POST['ac14'],$_POST['ac15'],$_POST['miscf1'],$_POST['miscf2'],$_POST['miscf3'],$_POST['miscf4'],$_POST['miscf5'],$_POST['miscf6'],$_POST['miscf7'],$_POST['miscf8'],$_POST['miscf9'],$_POST['miscf10'],$_POST['bal'],$_POST['depdate'],$_POST['depamt'],$_POST['p1date'],$_POST['p1amt'],$_POST['p2date'],$_POST['p2amt'],$_POST['p3date'],$_POST['p3amt'],$_POST['p4date'],$_POST['p4amt'],$_POST['insdate'],$_POST['insamt']);
+    //# filtering functions to come
+    
+    $query = "INSERT INTO Program (ProgramName,Country,DirectorID,Semester,ProgramStartDate,ProgramEndDate,Year,SuggestedMajors,AvailCourse1,AvailCourse2,AvailCourse3,AvailCourse4,AvailCourse5,AvailCourse6,AvailCourse7,AvailCourse8,AvailCourse9,AvailCourse10,AvailCourse11,AvailCourse12,AvailCourse13,AvailCourse14,AvailCourse15,MiscField1Name,MiscField2Name,MiscField3Name,MiscField4Name,MiscField5Name,MiscField6Name,MiscField7Name,MiscField8Name,MiscField9Name,MiscField10Name,BalanceDue,DepositDateDue,DepositAmount,Payment1DateDue,Payment1Amt,Payment2DateDue,Payment2Amt,Payment3DateDue,Payment3Amt,Payment4DateDue,Payment4Amt,InsuranceDateDue,InsuranceAmt) VALUES ('$postarr[0]','$postarr[1]','0','$postarr[3]','$postarr[4]','$postarr[5]','$postarr[6]','$postarr[7]','$postarr[8]','$postarr[9]','$postarr[10]','$postarr[11]','$postarr[12]','$postarr[13]','$postarr[14]','$postarr[15]','$postarr[16]','$postarr[17]','$postarr[18]','$postarr[19]','$postarr[20]','$postarr[21]','$postarr[22]','$postarr[23]','$postarr[24]','$postarr[25]','$postarr[26]','$postarr[27]','$postarr[28]','$postarr[29]','$postarr[30]',,'$postarr[31]','$postarr[32]','$postarr[33]','$postarr[34]','$postarr[35]','$postarr[36]','$postarr[37]','$postarr[38]','$postarr[39]','$postarr[40]','$postarr[41]','$postarr[42]','$postarr[43]','$postarr[44]','$postarr[45]','$postarr[46]')"; 
+
+
     if($mysqli_query($conn,$query)) {
         
     }
@@ -483,6 +478,7 @@ while ($programr = mysqli_fetch_array($programq)) { ?>
 			</div>
             <div class="information">
                 Total Balance: <input type="text" class="short" id="ebal" disabled value="<?php echo $r['BalanceDue'] ?>">
+                <input type="hidden" id="ebalh" name="bal" value="">
             </div>
         </div>
         <button type="button" class="collapsible">Miscellaneous Fields</button>
@@ -628,6 +624,7 @@ while ($programr = mysqli_fetch_array($programq)) { ?>
             </div>
         <div class="information">
                 Total Balance: <input type="text" class="short" id="abal" disabled value="<?php echo $r['BalanceDue'] ?>">
+                <input type="hidden" id="abalh" name="bal" value="">
         </div>
         </div>
         </div>
