@@ -20,6 +20,10 @@ th, td, tr {
     width:10%;
     float:left;
 }
+
+#searchmiddle,#searchleft {
+    vertical-align:top;
+}
 #searchright {
     width:20%;
     float:right;
@@ -37,39 +41,37 @@ th, td, tr {
   background-color: rgba(0,0,0, 0.9);
 }
 
-.form-popup {
-  display: none;
-  margin:auto;
-  z-index: 9;
-  opacity:1;
-  background:grey;
-  width:85%;
-  height:60%;
-  top:0;
-  position:absolute;
-  overflow:auto;
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  padding-top: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+  overflow-y: scroll;
 }
 
-.form-container {
-  padding: 0px;
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px groove #888;
+  width: 90%;
+  height:80%;
+  overflow:auto;
 }
 
 iframe {
     height:100%;
     width:100%;
 }
-
-
 </style>
 <script>
-function openEdit() {
-  document.getElementById("popupframe").style.display = "block";
-}
-
-function closeEdit() {
-  document.getElementById("popupframe").style.display = "none";
-}
-
 function resizeIframe(obj) {
     obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
 }
@@ -141,56 +143,64 @@ if (isset($_POST['Search'])) {
         $qstr .= buildStrs($applicationarr,"Application","","");
     }
     $qstr .= $pstr;
-    echo $qstr;
     //# check for an empty search
     if(trim($qstr)!="Select Student.EagleID,Student.FirstName,Student.LastName,Student.Email from Student") {
        //# perform query and count rows for user counting
         $query = mysqli_query($conn,$qstr);
         $query2 = mysqli_query($conn,$qstr);
         printf("Your search returned %d result(s)",mysqli_num_rows($query));
-        echo "<br />
-        <div id=\"container\">
-        <form method=\"post\" action=\"emaillist.php\" onsubmit=\"parent.searchCollapse()\">
-        
-        <div id=\"searchright\"><button type=\"submit\" name=\"submit\" value=\"Create Mailing list\" onclick=\"parent.searchCollapse()\">Create Mailing List from checked accounts</button></div>
-        <div id=\"searchleft\"><table><tr><th></th>
-	    <th><b>EagleID</b></th>
-	    <th><b>First Name</b></th>
-	    <th><b>Last Name</b></th>
-	    <th><b>Email</b></th>";
-	   
-	    //# display information from search, and collect a list[] of emails in case of mailing list
-	    while($myrow = mysqli_fetch_array($query)){
-	        echo "<tr><td><input type=\"checkbox\" checked name=\"list[]\" value=\"" . $myrow['Email'] . "\"></td>";
-	        echo "<td>" . $myrow['EagleID'] . "</td>";
-	        echo "<td>" . $myrow['FirstName'] . "</td>";
-	        echo "<td>" . $myrow['LastName'] . "</td>";
-	        echo "<td>" . $myrow['Email'] . "</td>
-	       </td></tr>";
-	    }
-	    echo "
-	    </table></form></div>
-	    <div id=\"searchmiddle\">
+        ?>
+        <br />
+        <div id="container">
+        <form method="post" action="emaillist.php" onsubmit="parent.searchCollapse()">
+        <div id="searchright"><button type="submit" name="submit" value="Create Mailing list" onclick="parent.searchCollapse()">Create Mailing List from checked accounts</button></div>
+        <div id="searchleft">
+            <table>
+                <tr><th></th>
+        	    <th><b>EagleID</b></th>
+        	    <th><b>First Name</b></th>
+        	    <th><b>Last Name</b></th>
+        	    <th><b>Email</b></th>
+        	    <?php 
+        	    //# display information from search, and collect a list[] of emails in case of mailing list
+        	    while($myrow = mysqli_fetch_array($query)) {
+        	    ?>
+        	        <tr>
+        	            <td><input type="checkbox" checked name="list[]" value="<?php echo $myrow['Email'] ?>"></td>
+        	            <td><?php echo $myrow['EagleID'] ?></td>
+        	            <td><?php echo $myrow['FirstName'] ?></td>
+        	            <td><?php echo $myrow['LastName'] ?></td>
+        	            <td><?php echo $myrow['Email'] ?></td>
+        	       </tr>
+                <?php }
+        	    ?>
+	        </table>
+	    </div>
+	    </form>
+	    <div id="searchmiddle">
 	    <table>
-	    <th><b>Edit</b></th>";
-	        while($myrow = mysqli_fetch_array($query2)) {
-	            echo "<form target=\"popupiframe\" action=\"viewstudent.php\" method=\"post\" onsubmit=\"openEdit()\">
-	                    <tr><td>
-	                        <input type=\"hidden\" name=\"eagleid\" value=\"".$myrow['EagleID']."\" >
-	                        <button type=\"submit\">Edit Profile</button>
-	                   </td></tr>
-	                   </form>
-	               ";
-	        }
-	   echo "</table>
-	    </div>";
-    }
-    else {
-        echo "<br /><h2>No inputs in search</h2>";
-    }
-    echo "</div>";
+	    <th><b>Edit</b></th>
+	    <?php
+	        while($myrow = mysqli_fetch_array($query2)) { ?>
+	            <form target="popupiframe" action="viewstudent.php" method="post" onsubmit="openModal('editModal')">
+	                   <tr>
+	                        <td>
+	                        <input type="hidden" name="eagleid" value="<?php echo $myrow['EagleID'] ?>">
+	                        <button type="submit">Edit Profile</button>
+	                        </td>
+	                   </tr>
+	           </form>
+	        <?php 
+	        } ?>
+	   </table>
+	   </div>
+    <?php } 
+    else { ?>
+        <br /><h2>No inputs in search</h2>
+    <?php } ?>
+    </div>
+<?php
 }
-
 //# function to filter array using arrFilter then return a new array of non-empty values
 function arrFix(&$s){
     $p = array();
@@ -245,6 +255,21 @@ function buildStrs(&$s,$t,$gpamod,$credhmod){
 	return $colstr;
 }
 ?>
-<div class="form-popup" id="popupframe"><iframe id="popupiframe" name="popupiframe" frameborder="0" scrolling="yes"></iframe></div>
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <iframe id="popupiframe" name="popupiframe" frameborder="0" scrolling="yes"></iframe>
+    </div>
+</div>
 </body>
+<script>
+function openModal(tar) {
+  var modal = document.getElementById(tar);
+  modal.style.display = "block";
+}
+
+function closeModal(tar) {
+  var modal = document.getElementById(tar);
+  modal.style.display = "none";
+}
+</script>
 </html>
