@@ -145,7 +145,7 @@ input, select, textarea {
   border: none;
   text-align: center;
   outline: none;
-  display: block;
+  display: hidden;
   margin-left: auto;
   margin-right: auto;
   font-size: 15px;
@@ -157,11 +157,14 @@ input, select, textarea {
   display: none;
   overflow: hidden;
   background-color: #f1f1f1;
+  position:relative;
+  z-index:9999;
 }
 
 .active, .collapsible:hover {
-  background-color: #555;
-  color: #eee;
+  background-color: #f2f2f2;
+  color: #000000;
+  display:inline-block;
 }
 
 .segcollapse {
@@ -169,6 +172,7 @@ input, select, textarea {
     float:left;
     margin:1.66%;
 }
+
 </style>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
@@ -176,30 +180,18 @@ $(document).ready(function(){
   $("input,textarea,select").change(function(){
     $(this).css("background-color", "#5F9EA0");
   });
-  $("#deppaid,#p1paid").change(function(){
-    var bal = parseInt($("#totalbal").val(),10);
-    var paid = 0;
-    alert(paid);
-    if($("#deppaid").val() == "Yes") {
-        paid += parseInt($("#depamt").val(),10);
+  $("#deppaid,#p1paid,#p2paid,#p3paid,#p4paid,#insurpaid").on("change",function(){
+    var balance = 0;
+    var due = parseFloat($("#fulldue").val());
+    var arr = [parseFloat($("#depamt").val()),$("#deppaid").val(),parseFloat($("#p1amt").val()),$("#p1paid").val(),parseFloat($("#p2amt").val()),$("#p2paid").val(),parseFloat($("#p3amt").val()),$("#p3paid").val(),parseFloat($("#p4amt").val()),$("#p4paid").val(),parseFloat($("#insamt").val()),$("#insurpaid").val()];
+    
+    for(var i=0;i<12;i+=2) {
+        if(arr[i+1] == "Yes") {
+            balance += arr[i];
+        }
     }
-    if($("#p1paid").val() == "Yes") {
-        paid += parseInt($("#p1amt").val(),10);
-    }
-    if($("#p2paid").val() == "Yes") {
-        paid += parseInt($("#p2amt").val(),10);
-    }
-    if($("#p3paid").val() == "Yes") {
-        paid += parseInt($("#p3amt").val(),10);
-    }
-    if($("#p4paid").val() == "Yes") {
-        paid += parseInt($("#p4amt").val(),10);
-    }
-    if($("#insurpaid").val() == "Yes") {
-        paid += parseInt($("#insamt").val(),10);
-    }
-    var a = bal - paid;
-    $("#bal").val(a);
+    
+    $("#bal").val(due - balance);
   });
 });
 </script>
@@ -226,7 +218,7 @@ $(document).ready(function(){
     //# display student information and allow for updating
     ?>
     
-    <button class="close" onclick="parent.closeEdit()">Cancel</button>
+    <button class="close" onclick="parent.closeModal('editModal')">Cancel</button>
     <h2>Editing <?php echo $eagleid . " - " . $personalrow['FirstName'] . " " . $personalrow['LastName'] ?></h2>
     <div class="tab">
       <button class="tablinks" onclick="openTab(event, 'Personal')">Personal</button>
@@ -235,7 +227,7 @@ $(document).ready(function(){
       <button class="tablinks" onclick="openTab(event, 'Education')">Education</button>
       <button class="tablinks" onclick="openTab(event, 'Application')">Application</button>
     </div>
-    <form id="savechange" action="updatestudent.php" method="POST">
+    <form id="savechange" action="updatestudent.php" method="POST" onsubmit="parent.closeModal('editModal')">
     <div class="inputarea">  
 		<div id="Personal" class="tabcontent">
 			<fieldset>
@@ -334,7 +326,6 @@ $(document).ready(function(){
 				</div>
 			</fieldset>
 		</div>
-		
 		<div id="Education" class="tabcontent">
 			<fieldset>
 			    <div class="row">
@@ -443,8 +434,15 @@ $(document).ready(function(){
 				</div>
 				<br>
 				<div class="segcollapse">
-    				<button type="button" class="collapsible">Classes</button>
-                    <div class="collapsecontent">
+				    <button type="button" class="collapsible" onclick="collapseClick('classes')">Classes</button>
+				</div>
+				<div class="segcollapse">
+				    <button type="button" class="collapsible" onclick="collapseClick('misc')">Misc Fields</button>
+				</div>
+				<div class="segcollapse">
+				    <button type="button" class="collapsible" onclick="collapseClick('payments')">Payments</button>
+				</div>
+                    <div class="collapsecontent" id="classes">
                     <?php 
                         //# get the program's available classes
                         $progid = $applicationrow['ProgramID'];
@@ -502,10 +500,7 @@ $(document).ready(function(){
 							<br />
                         <?php } ?>
                     </div>
-                </div>
-                <div class="segcollapse">
-                    <button type="button" class="collapsible">Misc Fields</button>
-                    <div class="collapsecontent">
+                    <div class="collapsecontent" id="misc">
                      <?php
                         $check = 0;
     				    for($i=1;$i<11;$i++) {
@@ -520,17 +515,14 @@ $(document).ready(function(){
     				    }
     				?>
                     </div>
-                </div>
-                <div class="segcollapse">
-                    <button type="button" class="collapsible">Payments</button>
-                    <div class="collapsecontent">
+                    <div class="collapsecontent" id="payments">
                     <?php
                         //# store program payment information
                         $selopts = array("Yes","No");
                     ?>
                         <div>
                             Balance Due: <input type="text" id="bal" name="bal" value="<?php echo $applicationrow['BalanceDue'] ?>">
-                            <input type="hidden" id="totalbal" value="<?php echo $programrow['BalanceDue'] ?>">
+                            <input type="hidden" id="fulldue" value="<?php echo $programrow['BalanceDue'] ?>">
                         </div>
                         <div>
                             Deposit Paid: <select id="deppaid" name="deppaid">
@@ -585,9 +577,6 @@ $(document).ready(function(){
 							Insurance Date Due: <input type="text" class="datelength" disabled value="<?php echo $programrow['InsuranceDateDue'] ?>">
                         </div>
                     </div>
-                </div>
-                <div id="coldisplay">
-                </div>
 			</fieldset>
 		</div>
     <button class="save" type="submit" name="update" value="update">Save Changes</button>
@@ -609,19 +598,14 @@ function openTab(evt, tabName) {
 }
 </script>
 <script>
-var coll = document.getElementsByClassName("collapsible");
-var i;
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-  var j;
-  for (j = 0; j < coll.length; j++) {
-    coll[j].className = "collapsible";
-  }
-  this.classList.toggle("active");
-
-  var content = this.nextElementSibling;
-  document.getElementById('coldisplay').innerHTML = content.innerHTML;
-  });
+function collapseClick(target) {
+    var coll = document.getElementsByClassName("collapsecontent");
+    for(var i = 0; i < coll.length; i++) {
+        coll[i].classList.remove("active");
+        coll[i].style.display="none";
+    }
+    document.getElementById(target).classList.add("active");
+    document.getElementById(target).style.display = "block";
 }
 </script>
 </html>
