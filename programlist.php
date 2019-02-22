@@ -9,6 +9,47 @@ include $_SERVER['DOCUMENT_ROOT'] . "/sc/countrieslist.php";
 include $_SERVER['DOCUMENT_ROOT'] . "/sc/semesterlist.php";
 ?>
 <html>
+<?php
+if(isset($_POST['addsubmit'])) {
+    //# build the query
+    $postarr = array($_POST['programname'],$_POST['programcountry'],'0',$_POST['semester'],$_POST['programstartdate'],$_POST['programenddate'],$_POST['programyear'],$_POST['majors'],$_POST['ac1'],$_POST['ac2'],$_POST['ac3'],$_POST['ac4'],$_POST['ac5'],$_POST['ac6'],$_POST['ac7'],$_POST['ac8'],$_POST['ac9'],$_POST['ac10'],$_POST['ac11'],$_POST['ac12'],$_POST['ac13'],$_POST['ac14'],$_POST['ac15'],$_POST['miscf1'],$_POST['miscf2'],$_POST['miscf3'],$_POST['miscf4'],$_POST['miscf5'],$_POST['miscf6'],$_POST['miscf7'],$_POST['miscf8'],$_POST['miscf9'],$_POST['miscf10'],$_POST['bal'],$_POST['depdate'],$_POST['depamt'],$_POST['p1date'],$_POST['p1amt'],$_POST['p2date'],$_POST['p2amt'],$_POST['p3date'],$_POST['p3amt'],$_POST['p4date'],$_POST['p4amt'],$_POST['insdate'],$_POST['insamt']);
+    //# filtering functions to come
+    $query = "INSERT INTO Program (ProgramName,Country,DirectorID,Semester,ProgramStartDate,ProgramEndDate,Year,SuggestedMajors,AvailCourse1,AvailCourse2,AvailCourse3,AvailCourse4,AvailCourse5,AvailCourse6,AvailCourse7,AvailCourse8,AvailCourse9,AvailCourse10,AvailCourse11,AvailCourse12,AvailCourse13,AvailCourse14,AvailCourse15,MiscField1Name,MiscField2Name,MiscField3Name,MiscField4Name,MiscField5Name,MiscField6Name,MiscField7Name,MiscField8Name,MiscField9Name,MiscField10Name,BalanceDue,DepositDateDue,DepositAmount,Payment1DateDue,Payment1Amt,Payment2DateDue,Payment2Amt,Payment3DateDue,Payment3Amt,Payment4DateDue,Payment4Amt,InsuranceDateDue,InsuranceAmt) values ('$postarr[0]','$postarr[1]','$postarr[2]','$postarr[3]','$postarr[4]','$postarr[5]','$postarr[6]','$postarr[7]','$postarr[8]','$postarr[9]','$postarr[10]','$postarr[11]','$postarr[12]','$postarr[13]','$postarr[14]','$postarr[15]','$postarr[16]','$postarr[17]','$postarr[18]','$postarr[19]','$postarr[20]','$postarr[21]','$postarr[22]','$postarr[23]','$postarr[24]','$postarr[25]','$postarr[26]','$postarr[27]','$postarr[28]','$postarr[29]','$postarr[30]','$postarr[31]','$postarr[32]','$postarr[33]','$postarr[34]','$postarr[35]','$postarr[36]','$postarr[37]','$postarr[38]','$postarr[39]','$postarr[40]','$postarr[41]','$postarr[42]','$postarr[43]','$postarr[44]','$postarr[45]')"; 
+
+    if(mysqli_query($conn,$query)) {
+          
+    }
+    else {
+        echo mysqli_error($conn);
+    }
+}
+
+//# a Program UPDATE
+if(isset($_POST['editsubmit'])) {
+    $edarr = array($_POST['programname'],$_POST['programcountry'],'0',$_POST['semester'],$_POST['programstartdate'],$_POST['programenddate'],$_POST['programyear'],$_POST['majors'],$_POST['ac1'],$_POST['ac2'],$_POST['ac3'],$_POST['ac4'],$_POST['ac5'],$_POST['ac6'],$_POST['ac7'],$_POST['ac8'],$_POST['ac9'],$_POST['ac10'],$_POST['ac11'],$_POST['ac12'],$_POST['ac13'],$_POST['ac14'],$_POST['ac15'],$_POST['miscf1'],$_POST['miscf2'],$_POST['miscf3'],$_POST['miscf4'],$_POST['miscf5'],$_POST['miscf6'],$_POST['miscf7'],$_POST['miscf8'],$_POST['miscf9'],$_POST['miscf10'],$_POST['bal'],$_POST['depdate'],$_POST['depamt'],$_POST['p1date'],$_POST['p1amt'],$_POST['p2date'],$_POST['p2amt'],$_POST['p3date'],$_POST['p3amt'],$_POST['p4date'],$_POST['p4amt'],$_POST['insdate'],$_POST['insamt']);
+    //# start building the $query string
+    $query = "UPDATE Program SET ProgramName='$edarr[0]',Country='$edarr[1]',DirectorID='$edarr[2]',Semester='$edarr[3]', ProgramStartDate='$edarr[4]', ProgramEndDate='$edarr[5]', Year='$edarr[6]', SuggestedMajors='$edarr[7]', AvailCourse1='$edarr[8]',AvailCourse2='$edarr[9]',AvailCourse3='$edarr[10]',AvailCourse4='$edarr[11]',AvailCourse5='$edarr[12]',AvailCourse6='$edarr[13]',AvailCourse7='$edarr[14]',AvailCourse8='$edarr[15]',AvailCourse9='$edarr[16]',AvailCourse10='$edarr[17]',AvailCourse11='$edarr[18]',AvailCourse12='$edarr[19]',AvailCourse13='$edarr[20]',AvailCourse14='$edarr[21]',AvailCourse15='$edarr[22]',MiscField1Name='$edarr[23]',MiscField2Name='$edarr[24]',MiscField3Name='$edarr[25]',MiscField4Name='$edarr[26]',MiscField5Name='$edarr[27]',MiscField6Name='$edarr[28]',MiscField7Name='$edarr[29]',MiscField8Name='$edarr[30]',MiscField9Name='$edarr[31]',MiscField10Name='$edarr[32]',BalanceDue='$edarr[33]',DepositDateDue='$edarr[34]', DepositAmount='$edarr[35]', Payment1DateDue='$edarr[36]', Payment1Amt='$edarr[37]', Payment2DateDue='$edarr[38]', Payment2Amt='$edarr[39]', Payment3DateDue='$edarr[40]', Payment3Amt='$edarr[41]', Payment4DateDue='$edarr[42]', Payment4Amt='$edarr[43]', InsuranceDateDue='$edarr[44]', InsuranceAmt='$edarr[45]' where ProgramID='$_POST[pid]'";
+    
+    if(mysqli_query($conn,$query)) {
+        
+    }
+    else {
+        echo mysqli_error($conn);
+    }
+}
+
+if(isset($_POST['delsubmit'])) {
+    $delid = $_POST['deleteid'];
+    
+    $query = "Delete from Program where ProgramID='$delid'";
+    if(mysqli_query($conn,$query)) {
+        
+    }
+    else {
+        echo mysqli_error($conn);
+    }
+}
+?>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
@@ -241,63 +282,6 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<?php
-if(isset($_POST['addsubmit'])) {
-    //# build the query
-    $postarr = array($_POST['programname'],$_POST['programcountry'],$_POST['directorsel'],$_POST['semester'],$_POST['programstartdate'],$_POST['programenddate'],$_POST['programyear'],$_POST['suggestedmajors'],$_POST['ac1'],$_POST['ac2'],$_POST['ac3'],$_POST['ac4'],$_POST['ac5'],$_POST['ac6'],$_POST['ac7'],$_POST['ac8'],$_POST['ac9'],$_POST['ac10'],$_POST['ac11'],$_POST['ac12'],$_POST['ac13'],$_POST['ac14'],$_POST['ac15'],$_POST['miscf1'],$_POST['miscf2'],$_POST['miscf3'],$_POST['miscf4'],$_POST['miscf5'],$_POST['miscf6'],$_POST['miscf7'],$_POST['miscf8'],$_POST['miscf9'],$_POST['miscf10'],$_POST['bal'],$_POST['depdate'],$_POST['depamt'],$_POST['p1date'],$_POST['p1amt'],$_POST['p2date'],$_POST['p2amt'],$_POST['p3date'],$_POST['p3amt'],$_POST['p4date'],$_POST['p4amt'],$_POST['insdate'],$_POST['insamt']);
-    //# filtering functions to come
-    
-    $query = "INSERT INTO Program (ProgramName,Country,DirectorID,Semester,ProgramStartDate,ProgramEndDate,Year,SuggestedMajors,AvailCourse1,AvailCourse2,AvailCourse3,AvailCourse4,AvailCourse5,AvailCourse6,AvailCourse7,AvailCourse8,AvailCourse9,AvailCourse10,AvailCourse11,AvailCourse12,AvailCourse13,AvailCourse14,AvailCourse15,MiscField1Name,MiscField2Name,MiscField3Name,MiscField4Name,MiscField5Name,MiscField6Name,MiscField7Name,MiscField8Name,MiscField9Name,MiscField10Name,BalanceDue,DepositDateDue,DepositAmount,Payment1DateDue,Payment1Amt,Payment2DateDue,Payment2Amt,Payment3DateDue,Payment3Amt,Payment4DateDue,Payment4Amt,InsuranceDateDue,InsuranceAmt) VALUES ('$postarr[0]','$postarr[1]','0','$postarr[3]','$postarr[4]','$postarr[5]','$postarr[6]','$postarr[7]','$postarr[8]','$postarr[9]','$postarr[10]','$postarr[11]','$postarr[12]','$postarr[13]','$postarr[14]','$postarr[15]','$postarr[16]','$postarr[17]','$postarr[18]','$postarr[19]','$postarr[20]','$postarr[21]','$postarr[22]','$postarr[23]','$postarr[24]','$postarr[25]','$postarr[26]','$postarr[27]','$postarr[28]','$postarr[29]','$postarr[30]',,'$postarr[31]','$postarr[32]','$postarr[33]','$postarr[34]','$postarr[35]','$postarr[36]','$postarr[37]','$postarr[38]','$postarr[39]','$postarr[40]','$postarr[41]','$postarr[42]','$postarr[43]','$postarr[44]','$postarr[45]','$postarr[46]')"; 
-
-
-    if($mysqli_query($conn,$query)) {
-        
-    }
-    else {
-        echo mysqli_error($conn);
-    }
-}
-
-//# a Program UPDATE
-if(isset($_POST['editsubmit'])) {
-    //# start building the $query string
-    $query = "UPDATE Program SET ProgramName='$_POST[programname]',Country='$_POST[programcountry]',DirectorID='0',Semester='$_POST[semester]', ProgramStartDate='$_POST[programstartdate]', ProgramEndDate='$_POST[programenddate]', Year='$_POST[programyear]', SuggestedMajors='$_POST[majors]', ";
-    //# append non-empty AvailCourse parts
-    for($i=1;$i<16;$i++) {
-        $temp1 = "AvailCourse" . $i;
-        $temp2 = "ac" . $i;
-        if(strlen($_POST[$temp2])>0){
-            $query .=  $temp1 . "='" . $_POST[$temp2] . "', ";
-        }
-    }
-    //# append non-empty Miscellaneous Field Names
-    for($i=1;$i<11;$i++) {
-        $temp1 = "MiscField" . $i . "Name";
-        $temp2 = "miscf" . $i;
-        if(strlen($_POST[$temp2])>0) {
-            $query .= $temp1 . "='" . $_POST[$temp2] . "', ";
-        }
-    }
-    $query .= "BalanceDue='$_POST[bal]',DepositDateDue='$_POST[depdate]', DepositAmount='$_POST[depamt]', Payment1DateDue='$_POST[p1date]', Payment1Amt='$_POST[p1amt]', Payment2DateDue='$_POST[p2date]', Payment2Amt='$_POST[p2amt]', Payment3DateDue='$_POST[p3date]', Payment3Amt='$_POST[p3amt]', Payment4DateDue='$_POST[p4date]', Payment4Amt='$_POST[p4amt]', InsuranceDateDue='$_POST[insdate]', InsuranceAmt='$_POST[insamt]' where ProgramID='$_POST[pid]'";
-    
-    if(mysqli_query($conn,$query)) {
-        
-    }
-    else {
-        echo mysqli_error($conn);
-    }
-}
-
-if(isset($_POST['delsubmit'])) {
-    $query = "Delete from Program where ProgramID='$_POST[deleteid]'";
-    if(mysqli_query($conn,$query)) {
-        
-    }
-    else {
-        echo mysqli_error($conn);
-    }
-}
-?>
 <div>
 <div id="left">
 <table>
@@ -501,7 +485,7 @@ while ($programr = mysqli_fetch_array($programq)) { ?>
 <div id="addModal" class="modal">
     <div class="modal-content">
     <form method="post" action="">
-            <button type="submit" class="save"  name="addsubmit" value="Save Changes">Save Changes</button>
+            <button type="submit" class="save"  name="addsubmit" value="addsubmit">Submit Program</button>
             <button type="button" class="close" name="cancel" onclick="closeModal('addModal')">Cancel</button>
     <fieldset>
         <div class="row">
@@ -642,7 +626,7 @@ while ($programr = mysqli_fetch_array($programq)) { ?>
         </div>
         </div>
     </fieldset>
-</form>
+    </form>
 </div>
 </div>
 <div id="right">
