@@ -178,7 +178,7 @@ input, select, textarea {
 <script type="text/javascript">
 $(document).ready(function(){
   $("input,textarea,select").change(function(){
-    $(this).css("background-color", "#5F9EA0");
+    $(this).css("background-color", "#8fd1ef");
   });
   $("#deppaid,#p1paid,#p2paid,#p3paid,#p4paid,#insurpaid").on("change",function(){
     var balance = 0;
@@ -198,6 +198,8 @@ $(document).ready(function(){
 </head>
 <body>
 <?php
+    $ynarr = array("Yes","No");
+
 	$eagleid = $_POST['eagleid'];
     $personalquery = mysqli_query($conn,"Select * From Student where EagleID='$eagleid'");
     $personalrow = mysqli_fetch_array($personalquery);
@@ -263,6 +265,21 @@ $(document).ready(function(){
 				    <div class="column2">Ethnicity: </div>
 				    <div class="column"><input type="text" name="eth" value="<?php echo $personalrow['Ethnicity']?>" pattern="[a-zA-Z\s]+"></div>
 				</div>
+				<div class="row">
+				    <div class="column2">Disability or special assistance: </div>
+				    <div class="column">
+				        <select id="disab" name="disab">
+				            <option value="<?php echo $personalrow['HasDisability'] ?>"><?php echo $personalrow['HasDisability'] ?>
+				            <?php 
+				            foreach($ynarr as $c) {
+				                if($c != $personalrow['HasDisability']) { ?>
+				                    <option value="<?php echo $c ?>"><?php echo $c ?>
+				                <?php }
+				            } ?>
+				            <option value="">
+				        </select>
+				    </div>
+				</div>
 			</fieldset>
 		</div>
 		<div id="Emergency" class="tabcontent">
@@ -289,8 +306,7 @@ $(document).ready(function(){
 				        <select id="passverif" name="passverif">
 							<option value="<?php echo $passportrow['PassportVerif'] ?>"><?php echo $passportrow['PassportVerif'] ?> 
 							    <?php 
-								$ppvarr = array("Yes","No");
-							    foreach($ppvarr as $c) { 
+							    foreach($ynarr as $c) { 
 							        if($c != $passportrow['PassportVerif']) { ?>
 							            <option value="<?php echo $c ?>"><?php echo $c ?>
 							        <?php } 
@@ -357,8 +373,7 @@ $(document).ready(function(){
     				    <select id="acstand" name="acstand">
     						<option value="<?php echo $educationrow['AcademicStanding'] ?>"><?php echo $educationrow['AcademicStanding'] ?>
     						    <?php
-								$easarr = array("Yes","No");
-    						    foreach($easarr as $c) {
+    						    foreach($ynarr as $c) {
     						        if($c != $educationrow['AcademicStanding']) { ?>
     						            <option value="<?php echo $c ?>"><?php echo $c ?>
     						        <?php }
@@ -377,8 +392,7 @@ $(document).ready(function(){
     				    <select id="gpaverif" name="gpaverif">
     						<option value="<?php echo $applicationrow['GPAVerif'] ?>"><?php echo $applicationrow['GPAVerif'] ?>
     						<?php
-							$arr = array("Yes","No");
-    						foreach($arr as $c) {
+    						foreach($ynarr as $c) {
     						    if($c != $applicationrow['GPAVerif']) { ?>
     						    	<option value="<?php echo $c ?>"><?php echo $c ?>
     					    	<?php }
@@ -410,8 +424,7 @@ $(document).ready(function(){
     				    <select id="letsent" name="letsent">
     						<option value="<?php echo $applicationrow['LetterSent'] ?>"><?php echo $applicationrow['LetterSent'] ?>
     							<?php
-								$arr = array("Yes","No");
-    							foreach($arr as $c) {
+    							foreach($ynarr as $c) {
     								if($c != $applicationrow['LetterSent']) { ?>
     									<option value="<?php echo $c ?>"><?php echo $c ?>
     								<?php }
@@ -423,8 +436,7 @@ $(document).ready(function(){
     				    <select id="enrollverif" name="enrollverif">
     						<option value="<?php echo $applicationrow['EnrollmentVerif'] ?>"><?php echo $applicationrow['EnrollmentVerif'] ?>
     							<?php
-								$arr = array("Yes","No");
-    							foreach($arr as $c) {
+    							foreach($ynarr as $c) {
     					    		if($c != $applicationrow['EnrollmentVerif']) { ?>
 										<option value="<?php echo $c ?>"><?php echo $c ?>
     									<?php }
@@ -482,7 +494,7 @@ $(document).ready(function(){
                             $count = $i + 1;
 							?>
                             Class <?php echo $count ?>: 
-                                <select name="classes<?php echo$count ?>">
+                                <select id="ac<?php echo $i ?>" name="classes<?php echo $count ?>">
                                     <?php 
                                     if(strlen($tempr['CourseID']) > 0) { ?>
                                     <option value="<?php echo $tempr['CourseID'] ?>"><?php echo $tempr['Course'] . " - " . $tempr['CourseName'] . " (" . $tempr['CreditHours'] . ")" ?>
@@ -497,6 +509,7 @@ $(document).ready(function(){
                                 <?php }
                             } ?>
 								</select>
+								<button type="button" onclick="resetClass('<?php echo $i ?>')">Clear</button>
 							<br />
                         <?php } ?>
                     </div>
@@ -606,6 +619,10 @@ function collapseClick(target) {
     }
     document.getElementById(target).classList.add("active");
     document.getElementById(target).style.display = "block";
+}
+function resetClass(n) {
+    var str = "ac" + n;
+    document.getElementById(str).value="";
 }
 </script>
 </html>
