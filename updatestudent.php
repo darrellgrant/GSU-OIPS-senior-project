@@ -25,7 +25,7 @@ $dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 </style>  
 </head>
 <body>
-    <button class="close" onclick="parent.closeEdit()">Cancel</button>
+    <button class="close" onclick="parent.closeModal('editModal')">Cancel</button>
 <?php
 //# on Update submit, try to update student
 if($_POST['update']) {
@@ -42,7 +42,8 @@ if($_POST['update']) {
     $gender = $_POST['gen'];
     $race = $_POST['race'];
     $ethnicity = $_POST['eth'];
-
+    $disab = $_POST['disab'];
+    
     $emergname = $_POST['emergname'];
     $emergrela = $_POST['emergrela'];
     $emergphone = $_POST['emergphone'];
@@ -99,14 +100,13 @@ if($_POST['update']) {
             echo mysqli_error($conn);
         }
     }
-    $query = "INSERT INTO Student (EagleID,FirstName,MiddleName,LastName,PrefName,Email,PhoneNum,DOB,Age,Gender,Race,Ethnicity) VALUES ('$eagleid','$fn','$mm','$ln','$pn','$email','$phone','$dob','$age','$gender','$race','$ethnicity') ON DUPLICATE KEY UPDATE Email='$email', PhoneNum='$phone', FirstName='$fn', MiddleName='$mn', LastName='$ln', PrefName='$pn', DOB='$dob', Age='$age', Gender='$gender', Race='$race', Ethnicity='$ethnicity';
+    $query = "INSERT INTO Student (EagleID,FirstName,MiddleName,LastName,PrefName,Email,PhoneNum,DOB,Age,Gender,Race,Ethnicity,HasDisability) VALUES ('$eagleid','$fn','$mm','$ln','$pn','$email','$phone','$dob','$age','$gender','$race','$ethnicity','$disab') ON DUPLICATE KEY UPDATE Email='$email', PhoneNum='$phone', FirstName='$fn', MiddleName='$mn', LastName='$ln', PrefName='$pn', DOB='$dob', Age='$age', Gender='$gender', Race='$race', Ethnicity='$ethnicity', HasDisability='$disab';
         INSERT INTO EmergCont (EagleID,Name,Relation,PhoneNum,Email) VALUES ('$eagleid','$emergname','$emergrela','$emergphone','$emergemail') ON DUPLICATE KEY UPDATE Name='$emergname', Relation='$emergrela', PhoneNum='$emergphone', Email='$emergemail'; 
         INSERT INTO Passports (EagleID,PassFName,PassMName,PassLName,PassportVerif,PassportNatl,PassportNum,PassportExpDate) VALUES ('$eagleid','$passfn','$passmn','$passln','$passverif','$passnatl','$passnum','$passexpdate') ON DUPLICATE KEY UPDATE PassFName='$passfn', PassMName='$passmn', PassLName='$passln', PassportVerif='$passverif', PassportNatl='$passnatl', PassportNum='$passnum', PassportExpDate='$passexpdate';
         INSERT INTO Education (EagleID,Class,Major,GPA,CreditHours,AcademicStanding) VALUES ('$eagleid','$class','$major','$gpa','$cdh','$acstand') ON DUPLICATE KEY UPDATE Class='$class', Major='$major', GPA='$gpa', CreditHours='$cdh', AcademicStanding='$acstand';" . $query2;
         
     if(mysqli_multi_query($conn,$query)) {
 	    echo "Update successful.";
-	    echo "$query";
 	}
 	else {
 	    echo "Update failed" . mysqli_error($conn) . "\n" . $query;
